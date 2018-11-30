@@ -1,0 +1,169 @@
+/*elementui评分的样式*/
+.el-rate {
+  height: 30px;
+}
+.el-rate__icon {
+  font-size: 25px;
+}
+
+/*elementui单选框和复选框的样式*/
+.el-checkbox__inner {
+  border: 1px solid #4893a8;
+  width: 20px;
+  height: 20px;
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner {
+  border-color: #4893a8;
+  background-color: #4893a8;
+  width: 20px;
+  height: 20px;
+}
+.el-checkbox__inner::after {
+  height: 10px;
+  left: 6px;
+  width: 3px;
+  top: 3px;
+}
+.el-radio__inner {
+  border: 1px solid #4893a8;
+  width: 20px;
+  height: 20px;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #4893a8;
+  background-color: #4893a8;
+  width: 20px;
+  height: 20px;
+}
+.el-radio__label {
+  color: #636363;
+  font-size: 20px;
+  position: relative;
+  top: 3px;
+}
+.el-radio__input.is-checked+.el-radio__label {
+  color: #4893a8;
+}
+.el-radio__inner::after {
+  width: 8px;
+  height: 8px;
+}
+
+
+/*elementui加载的样式*/
+.loading-wrapper .el-icon-loading{
+  font-size: 30px;
+  color: #4993a8 !important;
+}
+.loading-wrapper .el-loading-text {
+  font-size: 20px !important;
+  color: #4993a8 !important;
+}
+.loading-btn-wrapper, .el-icon-loading {
+  color: #4893a8!important;
+}
+.loading-btn-wrapper, .el-loading-text {
+  color: #4893a8!important;
+}
+
+/*elementui Select选择框的样式*/
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #4893a8;
+}
+.el-select-dropdown__item.selected {
+  color: #4893a8;
+}
+.el-select .el-input__inner:focus {
+  border-color: #4893a8;
+}
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
+  color: #4893a8 !important;
+}
+.el-scrollbar__view.el-select-dropdown__list {
+  max-height: 150px!important;
+  overflow: auto;
+}
+
+/*elementui 走马灯的样式*/
+.el-carousel__arrow .el-carousel__arrow--left {
+  opacity: 0!important;
+}
+.el-carousel__arrow .el-carousel__arrow--right {
+  opacity: 0!important;
+}
+.el-carousel__arrow {
+  opacity: 0!important;
+  cursor: auto!important;
+}
+
+  /* tinymce的样式*/
+.mce-tinymce {
+  box-shadow: 0 0 0 0 white !important;
+}
+.mce-btn-group:not(:first-child) {
+  margin-left: 0!important;
+}
+.mce-btn-group:not(:first-child) {
+  border: 0 !important;
+}
+.mce-statusbar .mce-container-body {
+  display: none!important;
+}
+.mce-menubtn.mce-fixed-width span {
+  width: 30px !important;
+}
+.mce-menubar {
+  border: 0 !important;
+}
+.mce-top-part:before {
+  box-shadow: 0 0 0 #4893a8!important;
+  -webkit-box-shadow: 0 0 0 #4893a8!important;
+  border-bottom: 1px solid #4893a8 !important;
+}
+
+ .mce-panel {
+  border-color: #4893a8 !important;
+}
+ .mce-ico {
+  color: #4893a8 !important;
+}
+ .mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset  {
+  color: #4893a8 !important;
+}
+ .mce-caret {
+  border-top: 4px solid #4893a8 !important;
+}
+/*writeText组件下面tinymce的样式*/
+.write .mce-ico {
+  font-size: 25px !important;
+  line-height: 25px !important;
+  width: 25px !important;
+  height: 25px !important;
+}
+.write .mce-btn {
+  margin-left: 20px!important;
+}
+.write .mce-btn .mce-txt {
+/*  font-size: 20px !important;*/
+}
+.write .mce-btn-has-text {
+  margin-top: 4px!important;
+}
+/*.write .mce-statusbar .mce-container-body {
+  display: block!important;
+}*/
+.write .mce-branding.mce-widget.mce-label.mce-flow-layout-item.mce-last {
+  display: none !important;
+}
+.write .mce-path-item.mce-last {
+  display: none !important;
+}
+/*  sendMessage下面的样式  */
+.send-message .mce-top-part:before {
+  border-bottom: 0!important;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 400px #fff inset;
+  -webkit-text-fill-color: black;
+}
