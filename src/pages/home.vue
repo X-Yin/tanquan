@@ -67,7 +67,7 @@
         } else {
           this.$router.push('/signup')
         }
-        
+
       },
       autoPlay() {
         if (this.current > 1.5) {

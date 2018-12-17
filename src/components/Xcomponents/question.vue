@@ -3,9 +3,9 @@
       <el-row>
         <setting :settings="settings"></setting>
       </el-row>
-      <div class="launch-wrapper" @click="launchQuestion"><span class="launch-btn">发布提问</span></div>
+      <div class="launch-wrapper" @click="launchQuestion">发布提问</div>
       <wait-task-wrapper v-if="questions.length === 0 && isNoQuestionShow"></wait-task-wrapper>
-      <no-task-text v-if="questions.length === 0 && !isNoQuestionShow"></no-task-text>
+      <no-task-text v-if="questions.length === 0 && !isNoQuestionShow" text="暂无提问"></no-task-text>
       <div class="bg-wrapper">
         <div v-for="(questioner ,index) in questions" :key="index" class="questioner-item">
           <div class="question-content">
@@ -199,6 +199,9 @@
 </script>
 
 <style scoped>
+  .question {
+    min-height: 100vh;
+  }
 .icons-wrapper {
   width: 60%;
   margin-top: 20px;
@@ -216,21 +219,18 @@
     overflow: hidden;
   }
   .launch-wrapper {
-    border: 1px solid #01a9ce;
-    width: 76px;
-    height: 31px;
-    line-height: 31px;
-    text-align: center;
-    box-sizing: border-box;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 35px;
-    margin-top: 20px;
-    color: #01a9ce;
-  }
-  .launch-wrapper:hover {
+    padding: 2px 6px;
     border: 1px solid #4893a8;
     color: #4893a8;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+    margin: 15px 35px;
+  }
+  .launch-wrapper:hover {
+    color: white;
+    background-color: #4893a8;
   }
   .questioner-item:last-child {
     margin-bottom: 50px;

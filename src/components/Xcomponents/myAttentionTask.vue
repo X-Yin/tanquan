@@ -174,6 +174,9 @@
 </script>
 
 <style scoped>
+  .attention-task {
+    min-height: 100vh;
+  }
   .bg-wrapper {
     padding: 0 35px;
     box-sizing: border-box;

@@ -132,7 +132,7 @@
                     fr.onload = function () {
                       $('.image').attr('src', this.result)
                       _this.upload(this.result).then((url) => {
-                        let img = `<img src="${url}" style="display:block; margin-left: 50%; transform:translateX(-50%);margin-top: 20px;margin-bottom: 20px;max-width:600px!important"><br>`
+                        let img = `<img src="${url}" style="display:block; margin-left: 50%; transform:translateX(-50%);margin-top: 20px;margin-bottom: 20px;max-width:580px!important"><br>`
                         editor.insertContent(img)
                       })
                     }

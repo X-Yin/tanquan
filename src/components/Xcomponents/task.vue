@@ -327,6 +327,9 @@
 </script>
 
 <style scoped>
+  .task {
+    min-height: 100vh;
+  }
 .icons-wrapper {
   width: 60%;
 }
@@ -334,18 +337,14 @@
     text-decoration: none;
   }
   .launch-wrapper {
-    border: 1px solid #01a9ce;
-    width: 76px;
-    height: 31px;
-    line-height: 29px;
-    text-align: center;
-    box-sizing: border-box;
+    padding: 2px 6px;
+    border: 1px solid #4893a8;
+    color: #4893a8;
     border-radius: 3px;
     cursor: pointer;
-    margin-left: 35px;
-    margin-top: 20px;
-    color: #01a9ce;
     transition: all 0.2s;
+    display: inline-block;
+    margin: 15px 35px;
   }
   .launch-wrapper:hover {
     color: white;

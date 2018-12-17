@@ -619,8 +619,7 @@ export const personIdentify = (identificateName,identificateIdCard,identificateI
 
 /*          私信               */
 //获取私信列表
-export const getPrivateLetter = (pageNum, type) => ajax(URL + '/message/get_unread_message.do', {
-  "pageNum": pageNum,
+export const getPrivateLetter = (type) => ajax(URL + '/message/get_unread_message.do', {
   "type": type
 }, 'POST')
 //获取私信详情

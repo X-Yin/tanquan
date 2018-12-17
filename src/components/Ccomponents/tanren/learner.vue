@@ -42,12 +42,13 @@
 			</div>
 			<div class="action">
 				<div class="btn1" @click="_getRoomInfo(item)" v-if="item.userId !== userId">私信</div>
-				<div class="btn2" v-if="item.userId !== userId">+好友</div>
+				<div class="btn2" v-if="item.userId !== userId" @click="showFriendInvite(item)">+好友</div>
 			</div>
 		</div>
 		<div class="loading-wrapper" v-show="loadingShow">
       <loading-btn class="loadingBtn"></loading-btn>
     </div>
+    <friend-invite ref="friendInvite" :item="item"></friend-invite>
 	</div>
 </template>
 <script>
@@ -56,6 +57,7 @@
   import waitTaskWrapper from '../../Xcomponents/waitTaskWrapper.vue'
   import {getPosition, deleteOne, getStorage, setStorage} from '../../../api/util.js'
   import loadingBtn from '../../Xcomponents/loadingBtn.vue'
+  import friendInvite from '../../common/friendInvite.vue'
 	export default{
 		data(){
 			return{
@@ -67,10 +69,16 @@
         people: [],
         p: 1,
         pagesNumber: 1,
-        userId: getStorage('user').userId
+        userId: getStorage('user').userId,
+        item: {},//要传递给friendInvite的对象
 			}
 		},
 		methods:{
+		  //显示好友申请的弹窗
+      showFriendInvite (item) {
+        console.log(item);
+        this.$refs.friendInvite.show();
+      },
 		  //点击私信按钮，获取roomid和roonName
       async _getRoomInfo(item) {
         let result = await getRoomInfo(item.userId);
@@ -158,6 +166,7 @@
       noTaskText,
       waitTaskWrapper,
       loadingBtn,
+      friendInvite
     }
 	}
 </script>

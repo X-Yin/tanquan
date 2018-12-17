@@ -205,6 +205,9 @@
 </script>
 
 <style scoped>
+  .my-answer {
+    min-height: 100vh;
+  }
   .fade-enter-active {
     transition: opacity 0.2s;
   }

@@ -63,6 +63,15 @@
     left: 0;
     right: 0;
   }
+  .mini-img-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    opacity: 0;
+  }
   .mask {
     position: absolute;
     z-index: 1;
@@ -87,10 +96,8 @@
     transform: translate3d(-50%, -50%, 0) rotateY(-90deg);
   }
   .photo-c {
-    width: 100%;
-    max-width: 800px;
     max-height: 600px;
-    min-width: 200px;
+    min-height: 200px;
   }
   .close-wrapper {
     position: absolute;

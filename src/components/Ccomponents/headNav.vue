@@ -41,7 +41,7 @@
             <div class="text" style="margin-right: 10px" @click="gotoFriend">好友<span class="dot"></span></div>
             <div class="text" @click="gotoPrivateLetter">
               私信
-              <!--<span class="dot"></span>-->
+              <span class="dot" v-show="PLunReadNum.length !== 0"></span>
             </div>
           </el-col>
         </el-row>
@@ -52,7 +52,7 @@
 
 <script>
   import {mapState, mapMutations} from 'vuex'
-  import {reqUser, logout, haveReadMessage} from '../../api/index.js'
+  import {reqUser, logout, haveReadMessage, getPrivateLetter} from '../../api/index.js'
   import {getCookie, setCookie,getStorage, setStorage, deleteCookie} from '../../api/util.js'
   const DEFAULT_AVATAR = 'https://oss.yxlinker.com/master/person.png'
   export default{
@@ -64,6 +64,7 @@
       }
     },
     mounted () {
+      let _this = this;
       //将搜索的字段保持在输入框内
       $('.search-input').val(this.query)
       let user = getStorage('user')
@@ -92,10 +93,18 @@
             console.log(message)
           },         //连接关闭回调
           onTextMessage: function ( message ) {
-            console.log(message)
+            console.log('headNav.vue',message)
+            //如果roomType为31说明是私信消息
+            if (message.ext.roomType === 31) {
+              let list = _this.PLunReadNum.slice();
+              list.push(1)
+              _this.getPLunReadNum(list);
+            }
           },    //收到文本消息
         })
       }
+      //获取私信列表
+      this._getPrivateLetter()
     },
     computed: {
       ...mapState([
@@ -109,10 +118,26 @@
         'isRegisterNamePassword',
         'avatar',
         'query',
-        'isLoginHuanxin'
+        'isLoginHuanxin',
+        'PLunReadNum'
       ])
     },
     methods:{
+      //获取私信列表，来显示私信上面的红点
+      async _getPrivateLetter () {
+        let result = await getPrivateLetter(31)
+        console.log(result)
+        if (result.success) {
+          let dots = []
+          result.data.forEach((item) => {
+            for (let i = 0; i < item.unReadNum; i++) {
+              dots.push(1)
+            }
+          });
+          console.log(dots);
+          this.getPLunReadNum(dots);
+        }
+      },
       //已读消息的函数
       async _haveReadMessage () {
         let roomId = getStorage('privateLetterDetailId');
@@ -169,7 +194,8 @@
         'getCircleDetailId',
         'getIsManagement',
         'getQuery',
-        'getIsLoginHuanxin'
+        'getIsLoginHuanxin',
+        'getPLunReadNum'
       ]),
       //在退出登录的时候将所有数据置为空
       clearAllData () {

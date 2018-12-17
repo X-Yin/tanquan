@@ -150,6 +150,9 @@ const mutations = {
   },
   getIsLoginHuanxin (state, isLoginHuanxin) {
     state.isLoginHuanxin = isLoginHuanxin
+  },
+  getPLunReadNum (state, PLunReadNum) {
+    state.PLunReadNum = PLunReadNum
   }
-}
+};
 export default mutations

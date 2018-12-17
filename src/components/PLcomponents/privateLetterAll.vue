@@ -9,7 +9,7 @@
       <div class="wrapper">
         <div class="item" v-for="(item, index) in privateLetter" :key="index" >
           <div class="avatar-wrapper">
-            <img v-lazy="item.senderPropic" class="avatar">
+            <img :src="item.senderPropic" class="avatar">
           </div>
           <div class="description">
             <div class="des-title">
@@ -24,9 +24,9 @@
           </div>
         </div>
       </div>
-      <div class="loadingBtn-wrapper" v-show="loadingShow">
-        <loading-btn class="loadingBtn"></loading-btn>
-      </div>
+      <!--<div class="loadingBtn-wrapper" v-show="loadingShow">-->
+        <!--<loading-btn class="loadingBtn"></loading-btn>-->
+      <!--</div>-->
     </div>
 </template>
 
@@ -36,6 +36,7 @@
   import {reqUserCircles, quitCircle, delCircle, getPrivateLetter} from '../../api/index.js'
   import {getPosition, deleteOne, getStorage, setStorage} from '../../api/util.js'
   import loadingBtn from '../Xcomponents/loadingBtn.vue'
+  import {mapMutations, mapState} from 'vuex'
   import $ from 'jquery'
   export default {
     data () {
@@ -49,65 +50,108 @@
         pagesNumber: 2,
       }
     },
+    computed: {
+      ...mapState([
+        'PLunReadNum'
+      ])
+    },
     created () {
       window.onscroll = null
     },
     mounted () {
-      this._getPrivateLetter(this.p)
+      this._getPrivateLetter(this.p);
+      let _this = this;
+      //环信监听消息
+      this.$conn.listen({
+        onTextMessage(message) {
+          console.log('privateLetterAll',message);
+          let roomId = message.ext.roomId;
+          //如果roomType为31的话，说明消息是私信
+          if (message.ext.roomType === 31) {
+            //如果来了一条新的私信，那么如果原来有这每一条私信的话，
+            // 先删除，再放在第一个，如果没有的话，直接放在第一个
+            let index = _this.privateLetter.findIndex((letter) => {
+              return letter['roomId'] === roomId
+            });
+            if (index < 0) {
+              //说明原来的私信列表里面没有这个房间
+              let obj = {
+                lastSendTime: _this.getTime(),
+                lastestMsg: message.ext.msg,
+                roomId: roomId,
+                roomName: message.ext.roomName,
+                roomType: 31,
+                senderName: message.ext.roomName,
+                senderPropic: message.ext.propic,
+                unReadNum: 1
+              };
+              _this.privateLetter.unshift(obj);
+            } else {
+              //说明原来的私信列表里面有这个房间
+              let unReadNum = _this.privateLetter[index].unReadNum;
+              _this.privateLetter = deleteOne(_this.privateLetter[index], _this.privateLetter, 'roomId');
+              let obj = {
+                lastSendTime: _this.getTime(),
+                lastestMsg: message.ext.msg,
+                roomId: roomId,
+                roomName: message.ext.roomName,
+                roomType: 31,
+                senderName: message.ext.roomName,
+                senderPropic: message.ext.propic,
+                unReadNum: unReadNum + 1
+              };
+              _this.privateLetter.unshift(obj);
+              console.log(_this.privateLetter);
+            }
+            //设置红点
+            let list = _this.PLunReadNum.slice();
+            list.push(1)
+            _this.getPLunReadNum(list);
+          }
+        }
+      })
     },
     methods: {
+      ...mapMutations([
+        'getPLunReadNum'
+      ]),
+      //对于时间进行排序，时间大的放在上面
+      timeSort (list) {
+        let array = list.slice();
+        array = array.sort((a, b) => {
+          return new Date(b.lastSendTime).getTime() - new Date(a.lastSendTime).getTime()
+        });
+        return array
+      },
+      getTime () {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let second = date.getSeconds();
+        return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+      },
       selectItem (item) {
         setStorage('privateLetterDetailId', item.roomId);
         setStorage('privateLetterChatRoomName', item.roomName);
         this.$router.push(`/privateletter/${item.roomId}`)
       },
-      loadMore (p, cb) {
-        setTimeout(() => {
-          cb(p)
-          if (p === this.pagesNumber) {
-            this.loadingShow = false
-          }
-        }, 500)
-      },
-      watchScroll () {
-        //为了防止发生this漂移
-        let self = this
-        window.onscroll = function () {
-          //获取滚动条的y值
-          let y = window.scrollY
-          //获取浏览器的视口高度
-          let clientHeight = window.innerHeight
-          //获取加载按钮在页面上的位置
-          if (self.loadingShow) {
-            let btn = getPosition(document.getElementsByClassName('loadingBtn')[0])
-            let top = btn.top
-            if (y + clientHeight >= top) {
-              if (self.isLoadOnePage) {
-                self.isLoadOnePage = false
-                if (self.pagesNumber > self.p) {
-                  self.p++
-                  //请求下一页的数据
-                  self.loadMore(self.p, self._getPrivateLetter)
-                }
-              }
-            }
-          }
-        }
-      },
       async _getPrivateLetter (p) {
-        let result = await getPrivateLetter(p, 31);
+        let result = await getPrivateLetter(31);
         console.log(result);
         if (result.success) {
-          let tasks = this.privateLetter.slice()
-          if (result.data.list.length === 0) {
-            this.isNoCircleShow = false
-            this.loadingShow = false
-          } else {
-            tasks = tasks.concat(result.data.list)
-            this.privateLetter = tasks
-            this.pagesNumber = result.data.lastPage
-            this.isLoadOnePage = true
-          }
+          this.privateLetter = result.data;
+          this.privateLetter = this.timeSort(this.privateLetter);
+          //查看所有的未读消息数，来设置PLunReadNum的值
+          let dots = []
+          this.privateLetter.forEach((item) => {
+            for (let i = 0; i < item.unReadNum; i++) {
+              dots.push(1)
+            }
+          })
+          this.getPLunReadNum(dots);
         } else {
           this.isNoCircleShow = false;
           this.loadingShow = false;
@@ -122,12 +166,6 @@
       },
       privateLetter () {
         if (this.privateLetter !== []) {
-          setTimeout(() => {
-            if (this.p !== this.pagesNumber) {
-              this.loadingShow = true
-            }
-          }, 20)
-          this.watchScroll()
           //处理文本内容
           setTimeout(() => {
             this.privateLetter.forEach((item,index) => {

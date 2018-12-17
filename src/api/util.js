@@ -41,10 +41,10 @@ export function deleteCookie (name) {
 }
 
 export function getStorage (name) {
-  return storage.session.get(name, {})
+  return storage.get(name, {})
 }
 export function setStorage (name, value) {
-  storage.session.set(name, value)
+  storage.set(name, value)
 }
 export function deleteOne (item, list, name) {
   let lists = list.slice()
@@ -59,10 +59,10 @@ export function addOne (item, list, name) {
 }
 
 function findIndex (item, list, name) {
-  let lists = list.slice()
+  let lists = list.slice();
   let index = lists.findIndex((li) => {
     return li[name] === item[name]
-  })
+  });
   return index
 }
 

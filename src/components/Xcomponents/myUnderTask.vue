@@ -181,6 +181,9 @@
 </script>
 
 <style scoped>
+  .undertake-task {
+    min-height: 100vh;
+  }
   .bg-wrapper {
     padding: 0 35px;
     box-sizing: border-box;

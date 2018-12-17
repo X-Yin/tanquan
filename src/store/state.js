@@ -48,6 +48,7 @@ export default{
   //私信列表数据
   privateLetter: [],
   privateLetterDetailId: 0,
+  PLunReadNum: 0,//未读私信的条数
   //登录注册下面的数据
   isPasswordLogin: true,//密码登录
   isVerificationLogin: false,//验证码登录

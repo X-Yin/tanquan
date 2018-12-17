@@ -91,7 +91,6 @@ import collect from '../components/Mecomponents/collect.vue'
 
 //好友列表component
 import friendList from '../components/Fcomponents/friendList.vue'
-import talkDetail from '../components/Fcomponents/talkDetail.vue'
 
 
 //登录component
@@ -108,7 +107,7 @@ import personIdentify from '../components/Pcomponents/personIdentify.vue'
 //私信页面component
 import privateLetter from '../components/PLcomponents/privateLetter.vue'
 import privateLetterAll from '../components/PLcomponents/privateLetterAll.vue'
-import privateLetterDetail from '../components/PLcomponents/privateLetterDetail.vue'
+import talkDetail from '../components/PLcomponents/talkDetail.vue'
 
 Vue.use(Router)
 
@@ -487,7 +486,7 @@ const router =  new Router({
         },
         {
           path: '/privateletter/:id',
-          component: privateLetterDetail
+          component: talkDetail
         }
       ]
     },

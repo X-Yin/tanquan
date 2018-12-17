@@ -85,6 +85,7 @@
           language_url:"/static/langs/zh_CN.js",
           skin_url: "/static/skins/lightgray",
           toolbar: false,
+          object_resizing: false,
           menubar: '',
           init_instance_callback:function(editor) {
             EDITOR = editor;

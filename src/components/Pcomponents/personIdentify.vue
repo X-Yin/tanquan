@@ -2,7 +2,9 @@
     <div class="person-identify">
         <head-nav></head-nav>
         <div class="container wrapper">
-
+          <div class="back-wrapper" @click="back()">
+            <i class="el-icon-arrow-left"></i>返回
+          </div>
           <div class="content">
             <div class="title">
               <span class="color-block"></span>
@@ -120,6 +122,10 @@
       computed: {
       },
       methods: {
+        //返回上一个页面
+        back () {
+          this.$router.go(-1);
+        },
         message (type,msg) {
           this.$message({
             type: type,
@@ -280,6 +286,19 @@
 </script>
 
 <style scoped>
+  .back-wrapper {
+    position: absolute;
+    top: 30px;
+    left: 80px;
+    color: #5a5a5a;
+    font-size: 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #5a5a5a;
+  }
+  .back-wrapper:hover {
+    color: #4893a8;
+    border-bottom: 1px solid #4893a8;
+  }
 .loading-mask-wrapper {
   position: fixed;
   top: 0;
@@ -318,10 +337,11 @@
   .wrapper {
     background-color: white;
     min-height: 100vh;
+    position: relative;
   }
    .content {
     width: 100%;
-    padding: 50px 0px 50px 150px;
+    padding: 80px 0px 50px 150px;
     box-sizing: border-box;
   }
   .title {
